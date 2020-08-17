@@ -1,0 +1,2 @@
+# LittleNeuronCpp
+Simple perceptron implementation.
