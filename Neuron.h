@@ -1,9 +1,11 @@
-#pragma once
-
+#include <iostream>
 
 class Neuron
 {
 	typedef double(*NeuronFunc) (double);
+
+	friend std::ostream& operator<<(std::ostream&, Neuron&);
+
 public:
 	Neuron(int);
 	//@parem1<int>    -- number of inputs
@@ -27,8 +29,6 @@ public:
 	void UpdateWeights(double*);
 	void Telemetry(void) const;
 	//@param<int> -- output value accurancy
-	void Telemetry(int) const;
-	void PrintWeights(void) const;
 	void InitWeights(void);
 	double GetActivation(void) const;
 
@@ -57,6 +57,8 @@ public:
 	//double ActivationFunc(double);
 	//double ActivationDerivativeFunc(double);
 
+	void Telemetry(int) const;
+	void PrintWeights(std::ostream&) const;
 
 };
 

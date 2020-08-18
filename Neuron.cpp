@@ -32,7 +32,7 @@ Neuron::Neuron(int inputsCount, double learningRate, double momentum, double dec
 
 Neuron::~Neuron()
 {
-	std::cout << "Destructing Neuron" << std::endl;
+	//std::cout << "Destructing Neuron" << std::endl;
 	delete[] weights_;
 }
 
@@ -41,9 +41,7 @@ void Neuron::Init()
 	weights_ = new double[inputsCount_];
 
 	InitWeights();
-	/*for (int i = 0; i < this->inputsCount_; i++)
-		this->weights_[i] = 0;*/
-	
+
 	bias_ = 1;
 	biasDelta_ = 0;
 	biasPrevDelta_ = 0;
@@ -78,7 +76,7 @@ void Neuron::Telemetry(int accuracy) const
 	
 	std::cout << "\tWeights: " << std::endl;
 	std::cout << "\t\t";
-	PrintWeights();
+	PrintWeights(std::cout);
 
 	std::printf("\tDelta = %.9f", delta_);
 	std::cout << std::endl;
@@ -94,12 +92,12 @@ void Neuron::Telemetry(void) const
 	Telemetry(16);
 }
 
-void Neuron::PrintWeights(void) const
+void Neuron::PrintWeights(std::ostream &DstStream) const
 {
-	std::cout << "[ " << weights_[0];
+	DstStream << "[ " << weights_[0];
 	for (int i = 1; i < inputsCount_; i++)
-		std::cout << ", " << weights_[i];
-	std::cout << "]" << std::endl;
+		DstStream << ", " << weights_[i];
+	DstStream << "]" << std::endl;
 }
 
 void Neuron::InitWeights(void)
@@ -139,4 +137,24 @@ void Neuron::UpdateWeights(double* inputs)
 double Neuron::GetActivation(void) const
 {
 	return activation_;
+}
+
+
+std::ostream& operator<<(std::ostream &DstStream, Neuron &PrjNeuron)
+{
+	DstStream << std::endl;
+	DstStream << "========================================" << std::endl;
+	DstStream << "\tBias = " << PrjNeuron.bias_ << std::endl;
+	DstStream << "\t\tbiasDelta_ = " << PrjNeuron.biasDelta_ << std::endl;
+	DstStream << "\t\tbiasPrevDelta_ = " << PrjNeuron.biasPrevDelta_ << std::endl;
+
+	DstStream << "\tWeights: " << std::endl;
+	DstStream << "\t\t";
+	PrjNeuron.PrintWeights(DstStream);
+
+	DstStream << "\tDelta = " << PrjNeuron.delta_ << std::endl;
+	DstStream << "\tPrev Delta = " << PrjNeuron.prevDelta_ << std::endl;
+	DstStream << "\tACTIVATION = " << PrjNeuron.activation_ << std::endl;
+	DstStream << "========================================" << std::endl;
+	return DstStream;
 }
