@@ -1,64 +1,71 @@
 #include <iostream>
 
-class Neuron
+namespace Neurons
 {
-	typedef double(*NeuronFunc) (double);
+	class Neuron
+	{
+		typedef double(*NeuronFunc) (double);
 
-	friend std::ostream& operator<<(std::ostream&, Neuron&);
+		friend std::ostream& operator<<(std::ostream&, Neuron&);
 
-public:
-	Neuron(int);
-	//@parem1<int>    -- number of inputs
-	//@parem2<double> -- learningRate
-	//@parem3<double> -- momentum
-	//@parem4<double> -- decay
-	Neuron(int, double, double, double);
-	//@parem1<int>    -- number of inputs
-	//@parem2<double> -- learningRate
-	//@parem3<double> -- momentum
-	//@parem4<double> -- decay
-	//@parem5<Func> -- Activation function
-	//@parem6<Func> -- Derivative of the activation function 
-	Neuron(int, double, double, double, NeuronFunc, NeuronFunc);
-	~Neuron();
+	public:
+		Neuron(void);
+		Neuron(int);
+		//@parem1<int>    -- number of inputs
+		//@parem2<double> -- learningRate
+		//@parem3<double> -- momentum
+		//@parem4<double> -- decay
+		Neuron(int, double, double, double);
+		//@parem1<int>    -- number of inputs
+		//@parem2<double> -- learningRate
+		//@parem3<double> -- momentum
+		//@parem4<double> -- decay
+		//@parem5<Func> -- Activation function
+		//@parem6<Func> -- Derivative of the activation function 
+		Neuron(int, double, double, double, NeuronFunc, NeuronFunc);
 
-	void Feed(double*);
-	//@param targetOutput -- neuron expected aim output
-	void BackPropagate(double);
-	//@parem inputs -- neuron entries 
-	void UpdateWeights(double*);
-	void Telemetry(void) const;
-	//@param<int> -- output value accurancy
-	void InitWeights(void);
-	double GetActivation(void) const;
+		Neuron(const Neuron &);
 
- private:
-	int inputsCount_;
-	double learningRate_;
-	double momentum_;
-	double decay_;
-	
-	double net_sum_;
-	double* weights_;
-	double activation_;
+		Neuron(const Neuron * const);
 
-	double bias_;
-	double biasWeight_;
-	double biasDelta_;
-	double biasPrevDelta_;
+		~Neuron();
 
-	double delta_;
-	double prevDelta_;
+		void Feed(double*);
+		//@param targetOutput -- neuron expected aim output
+		void BackPropagate(double);
+		//@parem inputs -- neuron entries 
+		void UpdateWeights(double*);
+		//@param<int> -- output value accurancy
+		void InitWeights(void);
+		double GetActivation(void) const;
 
-	void Init();
+		Neuron & operator=(const Neuron & rhs);
 
-	NeuronFunc ActivationFunc;
-	NeuronFunc ActivationDerivativeFunc;
-	//double ActivationFunc(double);
-	//double ActivationDerivativeFunc(double);
+	private:
+		int inputsCount_;
+		double learningRate_;
+		double momentum_;
+		double decay_;
 
-	void Telemetry(int) const;
-	void PrintWeights(std::ostream&) const;
+		double net_sum_;
+		double* weights_;
+		double activation_;
 
-};
+		double bias_;
+		double biasWeight_;
+		double biasDelta_;
+		double biasPrevDelta_;
 
+		double delta_;
+		double prevDelta_;
+
+		NeuronFunc ActivationFunc;
+		NeuronFunc ActivationDerivativeFunc;
+		//double ActivationFunc(double);
+		//double ActivationDerivativeFunc(double);
+
+		void Init();
+		void PrintWeights(std::ostream &) const;
+		void copy(const Neuron &);
+	};
+}
