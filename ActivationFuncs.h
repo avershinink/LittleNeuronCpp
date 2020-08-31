@@ -37,7 +37,7 @@ double ActivationFuncs::Sigmoid(double value)
 }
 double ActivationFuncs::SigmoidDerivative(double value)
 {
-	return Sigmoid(value) * (1 - Sigmoid(value));
+	return value * (1 - value);
 }
 
 // Rectified Linear Unit
